@@ -2,6 +2,7 @@ import random
 class NumerOn:
     def __init__(self):
         self.gamemaster = True
+        self._answertimes = 0
         while (self.gamemaster):
             self._correct = random.randint(102,987)
             self._once = self._correct % 10
@@ -16,10 +17,14 @@ class NumerOn:
 
         
     def get_Correct(self):
-        print (self._correct)
+        return self._correct
+        
+    def get_Times(self):
+        return self._answertimes
     
    
     def judge_answer(self, answer):
+        self._answertimes += 1
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
         answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
