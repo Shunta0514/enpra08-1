@@ -1,4 +1,3 @@
-import sys
 from numeron import NumerOn
 
 if __name__ == '__main__':
