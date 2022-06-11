@@ -9,6 +9,7 @@ class Enemy:
         
     def disassemble_toplace(self, answer):
         #3桁の整数を1の位、10の位、100の位に分解してリスト[1,10,100]にして返す
+        answer = str(answer)
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
         answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
@@ -20,7 +21,7 @@ class Enemy:
     
     def register_result(self, answer, eat, bite):
         #引数として渡した数字とその結果をnumpy配列としてallregisterに記憶する
-        np.append(self._allregister, np.array([answer, eat, bite]),axis = 0)
+        np.append(self._allregister, np.array([int(answer), eat, bite]),axis = 0)
     
     def judge_overlap(self,place=[]):
         """渡したリストの中の値が全て違う場合False,一つでも重なっているとTrueを返す"""
@@ -48,6 +49,7 @@ class Enemy:
         
         
     def answers(self, before_answer, before_eat , before_bite):
+        before_answer = str(before_answer)
         enemy_used = True #初期化
         enemy_overlap = True
         self._used_answer.append(before_answer) #以前の解答を記憶
