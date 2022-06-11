@@ -1,14 +1,16 @@
 from numeron import NumerOn
+from enemy import Enemy
 
 if __name__ == '__main__':
     
     #ローカル変数
     timelimit = 8
     numeron = NumerOn()
+    enemy = Enemy()
     print("数字の被らない3桁の数字を当ててね")
     print("Eat:  数字と数字の収まる位置(桁)が一致してるよ")
     print("Bite: 数字は一致してるけど収まる位置(桁)が違っているよ")
-    print("ヒントを頼りに"+ str(timelimit) +"以内に解いてみよう")
+    print("ヒントを頼りに"+ str(timelimit) +"以内に解いてみよう!敵に負けないように頑張って！")
     while(True):
         if numeron.get_Times() > timelimit:
             print("\033[31mGAME OVER\033[m")
@@ -30,6 +32,14 @@ if __name__ == '__main__':
                 print("\033[32m正解！おめでとう！\033[m")
                 print("\033[32m今回の記録は"+ str(numeron.get_Times()) + "回です\033[m")
                 break
+            
+            enemy_answer = enemy.answers(answer, Eat, Bite)
+            Eat, Bite = numeron.judge_answer(enemy_answer)
+            print("敵>>>"+ str(int(enemy_answer)))
+            print("Eat:",Eat)
+            print("Bite",Bite)
+            if Eat == 3:
+                print("\033[31m残念！先に当てられてしまった！\033[m")
+                break
         
-
       

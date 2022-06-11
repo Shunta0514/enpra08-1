@@ -20,7 +20,7 @@ class NumerOn:
         return self._correct
         
     def get_Times(self):
-        return self._answertimes
+        return (self._answertimes+1)/2
     
    
     def judge_answer(self, answer):
