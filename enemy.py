@@ -76,17 +76,17 @@ class Enemy:
             while(enemy_used):
                 threepattern = random.randint(0,2)
                 if threepattern == 0:
-                    before_place [0] = before_place[0]
+                    before_place[0] = before_place[0]
                     tmp = before_place[1]
                     before_place[1] = before_place[2]
                     before_place[2] = tmp
                 elif threepattern == 1:
-                    before_place [1] = before_place[1]
+                    before_place[1] = before_place[1]
                     tmp = before_place[0]
                     before_place[0] = before_place[2]
                     before_place[2] = tmp
                 else:
-                    before_place [2] = before_place[2]
+                    before_place[2] = before_place[2]
                     tmp = before_place[0]
                     before_place[0] = before_place[1]
                     before_place[1] = tmp
@@ -131,27 +131,27 @@ class Enemy:
                     while(enemy_overlap):
                         sixpattern = random.randint(0,6)
                         if sixpattern == 0:
-                            before_place [0] = before_place[0]
+                            before_place[0] = before_place[0]
                             before_place[1] = before_place[2]
                             before_place[2] = random.randint(0,9)
                         elif sixpattern == 1:
-                            before_place [0] = before_place[0]
+                            before_place[0] = before_place[0]
                             before_place[2] = before_place[1]
                             before_place[1] = random.randint(0,9)
                         elif sixpattern == 2:
-                            before_place [1] = before_place[1]
+                            before_place[1] = before_place[1]
                             before_place[0] = before_place[2]
                             before_place[2] = random.randint(0,9)
                         elif sixpattern == 3:
-                            before_place [1] = before_place[1]
+                            before_place[1] = before_place[1]
                             before_place[2] = before_place[0]
                             before_place[0] = random.randint(0,9)
                         elif sixpattern == 4:
-                            before_place [2] = before_place[2]
+                            before_place[2] = before_place[2]
                             before_place[0] = before_place[1]
                             before_place[1] = random.randint(0,9)
                         else:
-                            before_place [2] = before_place[2]
+                            before_place[2] = before_place[2]
                             before_place[1] = before_place[0]
                             before_place[0] = random.randint(0,9)
                         enemy_overlap = self.judge_overlap(before_place)
@@ -163,17 +163,17 @@ class Enemy:
             elif before_bite == 0:
                 while(enemy_used):
                     while(enemy_overlap):
-                        threepattern = random.randint(0,6)
+                        threepattern = random.randint(0,3)
                         if threepattern == 0:
-                            before_place [0] = before_place[0]
+                            before_place[0] = before_place[0]
                             before_place[1] = random.randint(0,9)
                             before_place[2] = random.randint(0,9)
                         elif threepattern == 1:
-                            before_place [1] = before_place[1]
+                            before_place[1] = before_place[1]
                             before_place[0] = random.randint(0,9)
                             before_place[2] = random.randint(0,9)
                         else:
-                            before_place [2] = before_place[2]
+                            before_place[2] = before_place[2]
                             before_place[1] = random.randint(0,9)
                             before_place[0] = random.randint(0,9)
                         enemy_overlap = self.judge_overlap(before_place)
@@ -193,25 +193,25 @@ class Enemy:
                             before_place[1] = before_place[2]
                             before_place[2] = random.randint(0,9)
                         elif sixpattern == 1:
-                            before_place[0] = random.randint(0,9)
-                            before_place[2] = before_place[1]
-                            before_place[1] = random.randint(0,9)
-                        elif sixpattern == 2:
-                            before_place[1] = random.randint(0,9)
-                            before_place[0] = before_place[2]
-                            before_place[2] = random.randint(0,9)
-                        elif sixpattern == 3:
-                            before_place[1] = random.randint(0,9)
-                            before_place[2] = before_place[0]
-                            before_place[0] = random.randint(0,9)
-                        elif sixpattern == 4:
-                            before_place[2] = random.randint(0,9)
-                            before_place[0] = before_place[1]
-                            before_place[1] = random.randint(0,9)
-                        else:
-                            before_place[2] = random.randint(0,9)
                             before_place[1] = before_place[0]
                             before_place[0] = random.randint(0,9)
+                            before_place[2] = random.randint(0,9)
+                        elif sixpattern == 2:
+                            before_place[0] = before_place[2]
+                            before_place[1] = random.randint(0,9)
+                            before_place[2] = random.randint(0,9)
+                        elif sixpattern == 3:
+                            before_place[0] = before_place[1]
+                            before_place[1] = random.randint(0,9)
+                            before_place[2] = random.randint(0,9)
+                        elif sixpattern == 4:
+                            before_place[2] = before_place[0]
+                            before_place[0] = random.randint(0,9)
+                            before_place[1] = random.randint(0,9)
+                        else:
+                            before_place[2] = before_place[1]
+                            before_place[0] = random.randint(0,9)
+                            before_place[1] = random.randint(0,9)
                         enemy_overlap = self.judge_overlap(before_place)
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)

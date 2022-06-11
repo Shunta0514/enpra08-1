@@ -12,7 +12,7 @@ class NumerOn:
                and self._once != self._hundreds
                and self._tens != self._hundreds):
                 self.gamemaster = False
-        self._place = [self._once, self._tens, self._hundreds]
+        self._place = [self._once, int(self._tens), int(self._hundreds)]
             
 
         
@@ -25,10 +25,10 @@ class NumerOn:
    
     def judge_answer(self, answer):
         self._answertimes += 1
-        answers_once = answer % 10
-        answers_tens = ((answer - answers_once) % 100) / 10
-        answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
-        answers_place = [answers_once, answers_tens, answers_hundreds]
+        answers_once = int(answer) % 10
+        answers_tens = ((int(answer) - answers_once) % 100) / 10
+        answers_hundreds = ((int(answer) - answers_once - answers_tens*10)) / 100
+        answers_place = [answers_once, int(answers_tens), int(answers_hundreds)]
         Eat = 0
         Bite = 0
         for i in range (3):
