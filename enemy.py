@@ -9,7 +9,7 @@ class Enemy:
         
     def disassemble_toplace(self, answer):
         #3桁の整数を1の位、10の位、100の位に分解してリスト[1,10,100]にして返す
-        answer = str(answer)
+        answer = int(answer)
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
         answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
@@ -49,7 +49,7 @@ class Enemy:
         
         
     def answers(self, before_answer, before_eat , before_bite):
-        before_answer = str(before_answer)
+        before_answer = int(before_answer)
         enemy_used = True #初期化
         enemy_overlap = True
         self._used_answer.append(before_answer) #以前の解答を記憶
@@ -100,7 +100,7 @@ class Enemy:
         elif before_eat == 2:
             enemy_place =[]
             for i in range(self._allregister.shape[0]):
-                if self._allregister[i][1] == 2:#---過去に2,0があった場合
+                if self._allregister[i][1] == 2:#---過去にE,B=2,0があった場合
                     while(enemy_used):
                         while(enemy_overlap):
                             register_place = self.disassemble_toplace(self._allregister[i][0])
@@ -114,7 +114,7 @@ class Enemy:
                         enemy_used =self.judge_used(enemy_answer)
                     self._used_answer.append(enemy_answer)
                     self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
-                    return enemy_answer       
+                    return enemy_answer
             #----過去に2,0が無かった場合
             while(enemy_used):
                 while(enemy_overlap):
@@ -131,7 +131,7 @@ class Enemy:
             if before_bite ==1:
                 while(enemy_used):
                     while(enemy_overlap):
-                        sixpattern = random.randint(0,6)
+                        sixpattern = random.randint(0,5)
                         if sixpattern == 0:
                             before_place[0] = before_place[0]
                             before_place[1] = before_place[2]
@@ -165,7 +165,7 @@ class Enemy:
             elif before_bite == 0:
                 while(enemy_used):
                     while(enemy_overlap):
-                        threepattern = random.randint(0,3)
+                        threepattern = random.randint(0,2)
                         if threepattern == 0:
                             before_place[0] = before_place[0]
                             before_place[1] = random.randint(0,9)
@@ -186,10 +186,34 @@ class Enemy:
                 return enemy_answer
         
         elif before_eat == 0:
-            if before_bite == 1:
+            if before_bite == 2:
+                while(enemy_used):
+                    threepattern = random.randint(0,2)
+                    if threepattern == 0:
+                        before_place[0] = random.randint(0,9)
+                        tmp = before_place[1]
+                        before_place[1] = before_place[2]
+                        before_place[2] = tmp
+                    elif threepattern == 1:
+                        before_place[1] = random.randint(0,9)
+                        tmp = before_place[0]
+                        before_place[0] = before_place[2]
+                        before_place[2] = tmp
+                    else:
+                        before_place[2] = random.randint(0,9)
+                        tmp = before_place[0]
+                        before_place[0] = before_place[1]
+                        before_place[1] = tmp
+                    enemy_answer = self.assemble(before_place)
+                    enemy_used = self.judge_used(enemy_answer)
+                self._used_answer.append(enemy_answer)
+                return enemy_answer
+                
+            
+            elif before_bite == 1:
                 while(enemy_used):
                     while(enemy_overlap):
-                        sixpattern = random.randint(0,6)
+                        sixpattern = random.randint(0,5)
                         if sixpattern == 0:
                             before_place[0] = random.randint(0,9)
                             before_place[1] = before_place[2]

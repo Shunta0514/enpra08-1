@@ -24,7 +24,7 @@ class NumerOn:
     
    
     def judge_answer(self, answer):
-        answer = str(answer)
+        answer = int(answer)
         self._answertimes += 1
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
