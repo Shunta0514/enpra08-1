@@ -10,7 +10,7 @@ if __name__ == '__main__':
     print("数字の被らない3桁の数字を当ててね")
     print("Eat:  数字と数字の収まる位置(桁)が一致してるよ")
     print("Bite: 数字は一致してるけど収まる位置(桁)が違っているよ")
-    print("ヒントを頼りに"+ str(timelimit) +"以内に解いてみよう!敵に負けないように頑張って！")
+    print("ヒントを頼りに"+ str(timelimit) +"回以内に解いてみよう!敵に負けないように頑張って！")
     while(True):
         if numeron.get_Times() > timelimit:
             print("\033[31mGAME OVER\033[m")
@@ -30,7 +30,7 @@ if __name__ == '__main__':
             print("Bite",Bite)
             if Eat == 3:
                 print("\033[32m正解！おめでとう！\033[m")
-                print("\033[32m今回の記録は"+ str(numeron.get_Times()) + "回です\033[m")
+                print("\033[32m今回の記録は"+ str(int(numeron.get_Times())) + "回です\033[m")
                 break
             
             enemy_answer = enemy.answers(answer, Eat, Bite)

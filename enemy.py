@@ -51,7 +51,6 @@ class Enemy:
         enemy_used = True #初期化
         enemy_overlap = True
         self._used_answer.append(before_answer) #以前の解答を記憶
-        self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
         before_place = self.disassemble_toplace(before_answer) #以前の解答を分解
         
         """-----ここまで共通動作-----"""
@@ -112,6 +111,7 @@ class Enemy:
                         enemy_answer = self.assemble(enemy_place)
                         enemy_used =self.judge_used(enemy_answer)
                     self._used_answer.append(enemy_answer)
+                    self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                     return enemy_answer       
             #----過去に2,0が無かった場合
             while(enemy_used):
@@ -122,6 +122,7 @@ class Enemy:
                 enemy_answer = self.assemble(before_place)
                 enemy_used = self.judge_used(enemy_answer)
             self._used_answer.append(enemy_answer)
+            self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
             return enemy_answer
         
         elif before_eat == 1:
@@ -157,6 +158,7 @@ class Enemy:
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
                 self._used_answer.append(enemy_answer)
+                self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                 return enemy_answer
             elif before_bite == 0:
                 while(enemy_used):
@@ -178,6 +180,7 @@ class Enemy:
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
                 self._used_answer.append(enemy_answer)
+                self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                 return enemy_answer
         
         elif before_eat == 0:
@@ -213,6 +216,7 @@ class Enemy:
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
                 self._used_answer.append(enemy_answer)
+                self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                 return enemy_answer
             
             elif before_bite == 0:
@@ -224,6 +228,7 @@ class Enemy:
                         enemy_overlap = self.judge_overlap(enemy_place)#被りを確認
                     enemy_used = self.judge_used(enemy_answer)
                 self._used_answer.append(enemy_answer)#使用済みリストに追加
+                self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                 return enemy_answer
                 
                 
