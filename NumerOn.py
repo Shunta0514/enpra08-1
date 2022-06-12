@@ -4,10 +4,9 @@ class NumerOn:
         self.gamemaster = True
         self._answertimes = 0
         while (self.gamemaster):
-            self._correct = random.randint(102,987)
-            self._once = self._correct % 10
-            self._tens = ((self._correct - self._once) % 100) / 10
-            self._hundreds = (self._correct - self._once - self._tens*10) / 100
+            self._once = random.randint(0,9)
+            self._tens = random.randint(0,9)
+            self._hundreds = random.randint(0,9)
             if(self._once != self._tens
                and self._once != self._hundreds
                and self._tens != self._hundreds):
@@ -29,7 +28,7 @@ class NumerOn:
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
         answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
-        answers_place = [answers_once, answers_tens, answers_hundreds]
+        answers_place = [answers_once, int(answers_tens), int(answers_hundreds)]
         Eat = 0
         Bite = 0
         for i in range (3):
@@ -37,7 +36,7 @@ class NumerOn:
                 if answers_place [i] == self._place [j]:
                     if i != j:
                         Bite +=1
-                    if i == j:
+                    elif i == j:
                         Eat +=1
         return Eat, Bite
     

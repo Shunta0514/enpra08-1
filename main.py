@@ -17,12 +17,12 @@ if __name__ == '__main__':
             break
         else:
             try:
-                answer = int( input("数字の被らない3桁の整数を入力してね\n>>>"))
+                answer = input("数字の被らない3桁の整数を入力してね\n>>>")
             except ValueError:
                 print ("\033[31mError: \033[m数字以外を入力しないで")
                 continue
-            if answer < 99 or 1000 <answer:
-                print("\033[31mError: \033[m3桁の数字を入力してね")
+            if int(answer) < 11 or 1000 <int(answer):
+                print("\033[31mError: \033[m数字の被らない3桁の正の整数を入力してね")
                 continue
                 
             Eat,  Bite = numeron.judge_answer(answer)
@@ -35,7 +35,10 @@ if __name__ == '__main__':
             
             enemy_answer = enemy.answers(answer, Eat, Bite)
             Eat, Bite = numeron.judge_answer(enemy_answer)
-            print("敵>>>"+ str(int(enemy_answer)))
+            if int(enemy_answer)<100:
+                print("敵>>>0"+ str(int(enemy_answer)))
+            else:
+                print("敵>>>"+ str(int(enemy_answer)))
             print("Eat:",Eat)
             print("Bite",Bite)
             if Eat == 3:

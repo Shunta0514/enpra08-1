@@ -13,11 +13,11 @@ class Enemy:
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
         answers_hundreds = ((answer - answers_once - answers_tens*10)) / 100
-        answers_place = [answers_once, answers_tens, answers_hundreds]
+        answers_place = [answers_once, int(answers_tens), int(answers_hundreds)]
         return answers_place
     
     def assemble(self, place=[]):
-        return place[0]+place[1]*10+place[2]*100
+        return 100*(place[2])+10*(place[1])+(place[0])
     
     def register_result(self, answer, eat, bite):
         #引数として渡した数字とその結果をnumpy配列としてallregisterに記憶する
@@ -54,10 +54,12 @@ class Enemy:
         enemy_overlap = True
         self._used_answer.append(before_answer) #以前の解答を記憶
         before_place = self.disassemble_toplace(before_answer) #以前の解答を分解
+        buckup_beforeplace = before_place
         
         """-----ここまで共通動作-----"""
         if before_bite == 3:
             while(enemy_used):
+                before_place = buckup_beforeplace
                 twopattern = random.randint(0,1)
                 if twopattern == 0:
                     tmp = before_place[0]
@@ -76,6 +78,7 @@ class Enemy:
         
         elif before_eat == 1 and before_bite == 2:
             while(enemy_used):
+                before_place = buckup_beforeplace
                 threepattern = random.randint(0,2)
                 if threepattern == 0:
                     before_place[0] = before_place[0]
@@ -103,6 +106,7 @@ class Enemy:
                 if self._allregister[i][1] == 2:#---過去にE,B=2,0があった場合
                     while(enemy_used):
                         while(enemy_overlap):
+                            before_place = buckup_beforeplace
                             register_place = self.disassemble_toplace(self._allregister[i][0])
                             for j in range(3):
                                 if (register_place[j] == before_place[j]):
@@ -118,6 +122,7 @@ class Enemy:
             #----過去に2,0が無かった場合
             while(enemy_used):
                 while(enemy_overlap):
+                    before_place = buckup_beforeplace
                     num = random.randint(0,2)
                     before_place[num] = random.randint(0,9)
                     enemy_overlap = self.judge_overlap(before_place)
@@ -131,6 +136,7 @@ class Enemy:
             if before_bite ==1:
                 while(enemy_used):
                     while(enemy_overlap):
+                        before_place = buckup_beforeplace
                         sixpattern = random.randint(0,5)
                         if sixpattern == 0:
                             before_place[0] = before_place[0]
@@ -165,6 +171,7 @@ class Enemy:
             elif before_bite == 0:
                 while(enemy_used):
                     while(enemy_overlap):
+                        before_place = buckup_beforeplace
                         threepattern = random.randint(0,2)
                         if threepattern == 0:
                             before_place[0] = before_place[0]
@@ -188,22 +195,25 @@ class Enemy:
         elif before_eat == 0:
             if before_bite == 2:
                 while(enemy_used):
-                    threepattern = random.randint(0,2)
-                    if threepattern == 0:
-                        before_place[0] = random.randint(0,9)
-                        tmp = before_place[1]
-                        before_place[1] = before_place[2]
-                        before_place[2] = tmp
-                    elif threepattern == 1:
-                        before_place[1] = random.randint(0,9)
-                        tmp = before_place[0]
-                        before_place[0] = before_place[2]
-                        before_place[2] = tmp
-                    else:
-                        before_place[2] = random.randint(0,9)
-                        tmp = before_place[0]
-                        before_place[0] = before_place[1]
-                        before_place[1] = tmp
+                    while(enemy_overlap):
+                        before_place = buckup_beforeplace
+                        threepattern = random.randint(0,2)
+                        if threepattern == 0:
+                            before_place[0] = random.randint(0,9)
+                            tmp = before_place[1]
+                            before_place[1] = before_place[2]
+                            before_place[2] = tmp
+                        elif threepattern == 1:
+                            before_place[1] = random.randint(0,9)
+                            tmp = before_place[0]
+                            before_place[0] = before_place[2]
+                            before_place[2] = tmp
+                        else:
+                            before_place[2] = random.randint(0,9)
+                            tmp = before_place[0]
+                            before_place[0] = before_place[1]
+                            before_place[1] = tmp
+                        enemy_overlap = self.judge_overlap(before_place)
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
                 self._used_answer.append(enemy_answer)
@@ -213,6 +223,7 @@ class Enemy:
             elif before_bite == 1:
                 while(enemy_used):
                     while(enemy_overlap):
+                        before_place = buckup_beforeplace
                         sixpattern = random.randint(0,5)
                         if sixpattern == 0:
                             before_place[0] = random.randint(0,9)
@@ -249,6 +260,7 @@ class Enemy:
                 self._unuseable_number.extend(before_place)
                 while (enemy_used):
                     while(enemy_overlap):
+                        before_place = buckup_beforeplace
                         enemy_answer = random.randint(102,987)#数値をランダム生成
                         enemy_place = self.disassemble_toplace(enemy_answer)#桁を分解
                         enemy_overlap = self.judge_overlap(enemy_place)#被りを確認
