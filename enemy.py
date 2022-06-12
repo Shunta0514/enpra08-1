@@ -3,7 +3,11 @@ import random
 class Enemy:
     def __init__(self):
         self._used_answer = [] #一度答えた3桁の数字を格納
-        self._unuseable_number = []#使えない番号------おいおいランダム生成の番号から個々の値を抜きたい
+        self._unuseable_number = {0:[0,1,2,3,4,5,6,7,8,9],#1の位
+                                  1:[0,1,2,3,4,5,6,7,8,9],#10の位
+                                  2:[0,1,2,3,4,5,6,7,8,9],#100の位
+                                  }#ランダム生成に使う番号
+        
         self._allregister = np.array([])
       
         
@@ -41,7 +45,7 @@ class Enemy:
     def first_answer(self):
         enemy_booking = True
         while (enemy_booking):
-                enemy_answer = random.randint(102,987)#数値をランダム生成
+                enemy_answer = random.randint(12,987)#数値をランダム生成
                 enemy_place = self.disassemble_toplace(enemy_answer)#桁を分解
                 enemy_booking = self.judge_overlap(enemy_place)#被りを確認
                 self._used_answer.append(enemy_answer)#使用済みリストに追加
@@ -112,7 +116,7 @@ class Enemy:
                                 if (register_place[j] == before_place[j]):
                                     enemy_place[j] = before_place[j]
                                 else:
-                                    enemy_place[j] = random.randint(0,9)
+                                    enemy_place[j] = random.choice(self._unuseable_number[j])
                             enemy_overlap = self.judge_overlap(enemy_place)
                         enemy_answer = self.assemble(enemy_place)
                         enemy_used =self.judge_used(enemy_answer)
@@ -124,7 +128,7 @@ class Enemy:
                 while(enemy_overlap):
                     before_place = buckup_beforeplace
                     num = random.randint(0,2)
-                    before_place[num] = random.randint(0,9)
+                    before_place[num] = random.choice(self._unuseable_number[num])
                     enemy_overlap = self.judge_overlap(before_place)
                 enemy_answer = self.assemble(before_place)
                 enemy_used = self.judge_used(enemy_answer)
@@ -141,27 +145,27 @@ class Enemy:
                         if sixpattern == 0:
                             before_place[0] = before_place[0]
                             before_place[1] = before_place[2]
-                            before_place[2] = random.randint(0,9)
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 1:
                             before_place[0] = before_place[0]
                             before_place[2] = before_place[1]
-                            before_place[1] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
                         elif sixpattern == 2:
                             before_place[1] = before_place[1]
                             before_place[0] = before_place[2]
-                            before_place[2] = random.randint(0,9)
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 3:
                             before_place[1] = before_place[1]
                             before_place[2] = before_place[0]
-                            before_place[0] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
                         elif sixpattern == 4:
                             before_place[2] = before_place[2]
                             before_place[0] = before_place[1]
-                            before_place[1] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
                         else:
                             before_place[2] = before_place[2]
                             before_place[1] = before_place[0]
-                            before_place[0] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
                         enemy_overlap = self.judge_overlap(before_place)
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
@@ -175,16 +179,16 @@ class Enemy:
                         threepattern = random.randint(0,2)
                         if threepattern == 0:
                             before_place[0] = before_place[0]
-                            before_place[1] = random.randint(0,9)
-                            before_place[2] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif threepattern == 1:
                             before_place[1] = before_place[1]
-                            before_place[0] = random.randint(0,9)
-                            before_place[2] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         else:
                             before_place[2] = before_place[2]
-                            before_place[1] = random.randint(0,9)
-                            before_place[0] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
+                            before_place[0] = random.choice(self._unuseable_number[0])
                         enemy_overlap = self.judge_overlap(before_place)
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
@@ -199,17 +203,17 @@ class Enemy:
                         before_place = buckup_beforeplace
                         threepattern = random.randint(0,2)
                         if threepattern == 0:
-                            before_place[0] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
                             tmp = before_place[1]
                             before_place[1] = before_place[2]
                             before_place[2] = tmp
                         elif threepattern == 1:
-                            before_place[1] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
                             tmp = before_place[0]
                             before_place[0] = before_place[2]
                             before_place[2] = tmp
                         else:
-                            before_place[2] = random.randint(0,9)
+                            before_place[2] = random.choice(self._unuseable_number[2])
                             tmp = before_place[0]
                             before_place[0] = before_place[1]
                             before_place[1] = tmp
@@ -226,29 +230,29 @@ class Enemy:
                         before_place = buckup_beforeplace
                         sixpattern = random.randint(0,5)
                         if sixpattern == 0:
-                            before_place[0] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
                             before_place[1] = before_place[2]
-                            before_place[2] = random.randint(0,9)
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 1:
                             before_place[1] = before_place[0]
-                            before_place[0] = random.randint(0,9)
-                            before_place[2] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 2:
                             before_place[0] = before_place[2]
-                            before_place[1] = random.randint(0,9)
-                            before_place[2] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 3:
                             before_place[0] = before_place[1]
-                            before_place[1] = random.randint(0,9)
-                            before_place[2] = random.randint(0,9)
+                            before_place[1] = random.choice(self._unuseable_number[1])
+                            before_place[2] = random.choice(self._unuseable_number[2])
                         elif sixpattern == 4:
                             before_place[2] = before_place[0]
-                            before_place[0] = random.randint(0,9)
-                            before_place[1] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
+                            before_place[1] = random.choice(self._unuseable_number[1])
                         else:
                             before_place[2] = before_place[1]
-                            before_place[0] = random.randint(0,9)
-                            before_place[1] = random.randint(0,9)
+                            before_place[0] = random.choice(self._unuseable_number[0])
+                            before_place[1] = random.choice(self._unuseable_number[1])
                         enemy_overlap = self.judge_overlap(before_place)
                     enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
@@ -257,15 +261,18 @@ class Enemy:
                 return enemy_answer
             
             elif before_bite == 0:
-                self._unuseable_number.extend(before_place)
-                while (enemy_used):
+                for i in range(3):
+                    for j in range(3):
+                            self._unuseable_number[i].remove(before_place[j])
+                while(enemy_used):
                     while(enemy_overlap):
-                        before_place = buckup_beforeplace
-                        enemy_answer = random.randint(102,987)#数値をランダム生成
-                        enemy_place = self.disassemble_toplace(enemy_answer)#桁を分解
-                        enemy_overlap = self.judge_overlap(enemy_place)#被りを確認
+                        before_place[2] = random.choice(self._unuseable_number[2])
+                        before_place[1] = random.choice(self._unuseable_number[1])
+                        before_place[0] = random.choice(self._unuseable_number[0])
+                        enemy_overlap = self.judge_overlap(before_place)
+                    enemy_answer = self.assemble(before_place)
                     enemy_used = self.judge_used(enemy_answer)
-                self._used_answer.append(enemy_answer)#使用済みリストに追加
+                self._used_answer.append(enemy_answer)
                 self.register_result(before_answer, before_eat, before_bite)#記録をallregisterに登録
                 return enemy_answer
                 

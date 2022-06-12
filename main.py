@@ -7,7 +7,7 @@ if __name__ == '__main__':
     timelimit = 8
     numeron = NumerOn()
     enemy = Enemy()
-    print("数字の被らない3桁の数字を当ててね")
+    print("数字の被らない3つの数字を当ててね[012~987]")
     print("Eat:  数字と数字の収まる位置(桁)が一致してるよ")
     print("Bite: 数字は一致してるけど収まる位置(桁)が違っているよ")
     print("ヒントを頼りに"+ str(timelimit) +"回以内に解いてみよう!敵に負けないように頑張って！")
