@@ -294,24 +294,28 @@ class Enemy:
     
     def E0B3(self,before_place):
         """直前の解答がEat = 0,Bite = 3の時の解答を生成する"""
-        enemy_used = True 
-        buckup_beforeplace = copy.copy(before_place) #ループした時に引数を失わないようにバックアップをとる
-        while(enemy_used):
-            before_place = copy.copy(buckup_beforeplace)
-            twopattern = random.randint(0,1)
-            if twopattern == 0:
-                tmp = before_place[0]
-                before_place[0] = before_place[1]
-                before_place[1] = before_place[2]
-                before_place[2] = tmp                
-            else:
-                tmp = before_place[0]
-                before_place[0] = before_place[2]
-                before_place[2] = before_place[1]
-                before_place[1] = tmp
-            enemy_answer = self.assemble(before_place)
-            enemy_used = self.judge_used(enemy_answer)
-        return enemy_answer
+        postpone, enemy_answer = self.prioritize()
+        if postpone == True:
+            return enemy_answer
+        else:
+            enemy_used = True 
+            buckup_beforeplace = copy.copy(before_place) #ループした時に引数を失わないようにバックアップをとる
+            while(enemy_used):
+                before_place = copy.copy(buckup_beforeplace)
+                twopattern = random.randint(0,1)
+                if twopattern == 0:
+                    tmp = before_place[0]
+                    before_place[0] = before_place[1]
+                    before_place[1] = before_place[2]
+                    before_place[2] = tmp                
+                else:
+                    tmp = before_place[0]
+                    before_place[0] = before_place[2]
+                    before_place[2] = before_place[1]
+                    before_place[1] = tmp
+                enemy_answer = self.assemble(before_place)
+                enemy_used = self.judge_used(enemy_answer)
+            return enemy_answer
     
     def E1B0(self,before_place):
         """_summary_
