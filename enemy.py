@@ -381,16 +381,22 @@ class Enemy:
                     return enemy_answer
                 #過去のE=2と違う数字を用いていた場合、過去のEat=2の解答から重複する数字だけ参照し、残りの数字はランダムに変えて解答を生成する
                 else:
+                    overlaps = 0
                     while(enemy_used == True or enemy_overlap ==True):
                         enemy_place = [0,0,0]
                         for j in range(3):
                             if register_place[j] in before_place:#befoe_placeと同じ数字が入っていたらregister_placeと同じ値を採用
+                                overlaps +=1
                                 enemy_place[j] = copy.copy(register_place[j])
                             else:
                                 enemy_place[j] = copy.copy(random.choice(self._unuseable_number[j]))
                         enemy_overlap = self.judge_overlap(enemy_place)
                         enemy_answer = self.assemble(enemy_place)
                         enemy_used = self.judge_used(enemy_answer)
+                        if overlaps == 2:
+                            empty,enemy_answer = self.prioritize()
+                            enemy_overlap = False
+                            enemy_used = False
                     return enemy_answer
             
         #----参照した結果、過去にEat=2が無かった場合    
