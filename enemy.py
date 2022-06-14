@@ -16,7 +16,8 @@ class Enemy:
                                   }
         
         self._allregister = np.empty((0,3),int)
-        self._important_place =[]
+        self._more_important_place =[]
+        self._little_important_place = []
         
       
         
@@ -89,7 +90,9 @@ class Enemy:
                         if place[j] in self._unuseable_number[k]:
                             self._unuseable_number[k].remove(place[j])
         if eat == 2:
-            self._important_place = copy.copy(place)
+            self._more_important_place = copy.copy(place)
+        if eat == 1 and bite == 1:
+            self._little_important_place = copy.copy(place)
         
     def prioritize(self):
         """_summary_
@@ -102,7 +105,14 @@ class Enemy:
         for i in range(((self._allregister.shape[0])-2),-1,-1):
             #---過去にE,B=2,0があった場合その結果から答えを生成する
             if self._allregister[i][1] == 2:
-                enemy_answer = self.E2B0(self._important_place)
+                enemy_answer = self.E2B0(self._more_important_place)
+                postpone = True
+                return postpone, enemy_answer
+            
+        for i in range(((self._allregister.shape[0])-2),-1,-1):
+            #---過去にE,B=2,0があった場合その結果から答えを生成する
+            if self._allregister[i][1] == 1 and self._allregister[i][2] == 1:
+                enemy_answer = self.E1B1(self._little_important_place)
                 postpone = True
                 return postpone, enemy_answer
             
@@ -128,7 +138,7 @@ class Enemy:
         for i in range(self._allregister.shape[0]):
             if nextanswer == self._allregister[i][0]:
                 return True
-        return False
+        return False                
     
     def first_answer(self):
         """人間よりも前に解答順が回ってきた時はこの関数を用いて解答を生成する"""
@@ -142,7 +152,6 @@ class Enemy:
     def answers(self, before_answer, before_eat, before_bite):
         """直前の解答結果を元に解答を生成する"""
         before_answer = int(before_answer)
-        self.remember_result(before_answer,before_eat, before_bite) #人間の解答を記憶
         before_place = self.disassemble_toplace(before_answer) #以前の解答を分解      
         if before_eat == 0:
             if before_bite == 0:
@@ -381,20 +390,20 @@ class Enemy:
                     return enemy_answer
                 #過去のE=2と違う数字を用いていた場合、過去のEat=2の解答から重複する数字だけ参照し、残りの数字はランダムに変えて解答を生成する
                 else:
-                    overlaps = 0
+                    excess_overlaps = 0
                     while(enemy_used == True or enemy_overlap ==True):
                         enemy_place = [0,0,0]
                         for j in range(3):
                             if register_place[j] in before_place:#befoe_placeと同じ数字が入っていたらregister_placeと同じ値を採用
-                                overlaps +=1
+                                excess_overlaps +=1
                                 enemy_place[j] = copy.copy(register_place[j])
                             else:
                                 enemy_place[j] = copy.copy(random.choice(self._unuseable_number[j]))
                         enemy_overlap = self.judge_overlap(enemy_place)
                         enemy_answer = self.assemble(enemy_place)
                         enemy_used = self.judge_used(enemy_answer)
-                        if overlaps == 2:
-                            empty,enemy_answer = self.prioritize()
+                        if excess_overlaps == 2:
+                            norole,enemy_answer = self.prioritize()
                             enemy_overlap = False
                             enemy_used = False
                     return enemy_answer
