@@ -16,7 +16,7 @@ class NumerOn:
 
         
     def get_Correct(self):
-        return self._correct
+        return self._place[0]+self._tens*10+self._hundreds*100
         
     def get_Times(self):
         return (self._answertimes+1)/2

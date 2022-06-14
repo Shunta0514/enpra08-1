@@ -11,11 +11,14 @@ if __name__ == '__main__':
     print("Eat:  数字と数字の収まる位置(桁)が一致してるよ")
     print("Bite: 数字は一致してるけど収まる位置(桁)が違っているよ")
     print("ヒントを頼りに"+ str(timelimit) +"回以内に解いてみよう!敵に負けないように頑張って！")
+    
     while(True):
         if numeron.get_Times() > timelimit:
             print("\033[31mGAME OVER\033[m")
+            print("答えは"+str(numeron.get_Correct()))
             break
         else:
+            retry = False
             try:
                 answer = input("数字の被らない3桁の整数を入力してね\n>>>")
             except ValueError:
@@ -24,7 +27,6 @@ if __name__ == '__main__':
             if int(answer) < 11 or 1000 <int(answer):
                 print("\033[31mError: \033[m数字の被らない3桁の正の整数を入力してね")
                 continue
-                
             Eat,  Bite = numeron.judge_answer(answer)
             print("Eat:",Eat)
             print("Bite",Bite)
@@ -35,10 +37,11 @@ if __name__ == '__main__':
             
             enemy_answer = enemy.answers(answer, Eat, Bite)
             Eat, Bite = numeron.judge_answer(enemy_answer)
+            enemy.remember_result(enemy_answer,Eat,Bite)
             if int(enemy_answer)<100:
-                print("敵>>>0"+ str(int(enemy_answer)))
+                print("\033[31m敵>>>\033[m0"+ str(int(enemy_answer)))
             else:
-                print("敵>>>"+ str(int(enemy_answer)))
+                print("\033[31m敵>>>\033[m"+ str(int(enemy_answer)))
             print("Eat:",Eat)
             print("Bite",Bite)
             if Eat == 3:
