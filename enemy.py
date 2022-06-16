@@ -1,7 +1,6 @@
 import numpy as np
 import random
 import copy
-from tenacity import before_sleep_log
 class Enemy:
     def __init__(self):
         """

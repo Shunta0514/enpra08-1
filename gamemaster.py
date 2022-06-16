@@ -15,6 +15,7 @@ class GameMaster:
         self._correct = self._once + self._tens*10 + self._hundreds*100
         
     def judge_role(self, answer):
+        
         answer = int(answer)
         answers_once = answer % 10
         answers_tens = ((answer - answers_once) % 100) / 10
