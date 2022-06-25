@@ -68,6 +68,7 @@ class Enemy:
     def remember_result(self, answer, eat, bite):
         """_summary_
             引数の解答をメンバ変数リストallregisterに記録し、その解答の結果がEat=0であったらそれらの番号をランダム生成の候補から消す
+            また(Eat,Bite) =(2,0)や(1,1)のデータだけ個別に記憶する
 
         Args:
             answer(str): インスタンスが受け取った解答
@@ -95,9 +96,11 @@ class Enemy:
         
     def prioritize(self):
         """_summary_
-
+            以前に(Eat,Bite) =(2,0)や(1,1)のデータが存在した場合、優先してそのデータを元に解答を作成する
         Returns:
             _type_: _description_
+            bool : 以前に(Eat,Bite) =(2,0)や(1,1)のデータが存在した場合はTrue,存在しなければFalseを返す
+            int : 以前に(Eat,Bite) =(2,0)や(1,1)のデータが存在した場合はデータを元に作成した解答を返し、存在しない場合は0を返す
         """
         postpone = False
         enemy_answer = 0
@@ -133,14 +136,27 @@ class Enemy:
         return True
     
     def judge_used(self, nextanswer):
-        """渡した値を既に解答に使っている場合はTrue,使っていない場合はFalseを返す"""
+        """_summary_
+            渡した値が既に解答に使われている場合はTrue,使っていない場合はFalseを返す
+        Args:
+            nextanswer (_int_): 作成した解答
+
+        Returns:
+            _type_: _description_
+            bool : 使われている場合はTrue,使っていない場合はFalseを返す
+        """
         for i in range(self._allregister.shape[0]):
             if nextanswer == self._allregister[i][0]:
                 return True
         return False                
     
     def first_answer(self):
-        """人間よりも前に解答順が回ってきた時はこの関数を用いて解答を生成する"""
+        """_summary_
+            人間よりも前に解答順が回ってきた時はこの関数を用いて解答を生成する
+        Returns:
+            _type_: _description_
+            int : ランダムに作成した解答
+        """
         enemy_overlap = True
         while (enemy_overlap):
                 enemy_answer = random.randint(12,987)#数値をランダム生成
@@ -149,7 +165,17 @@ class Enemy:
         return enemy_answer
     
     def answers(self, before_answer, before_eat, before_bite):
-        """直前の解答結果を元に解答を生成する"""
+        """_summary_
+            直前の解答結果を元に解答を生成する
+        Args:
+            before_answer (string): 直前に使用された解答
+            before_eat (int): before_answerの判定結果(Eat)
+            before_bite (int): before_answerの判定結果(Bite)
+
+        Returns:
+            _type_: _description_
+            int : 作成した解答
+        """
         before_answer = int(before_answer)
         before_place = self.disassemble_toplace(before_answer) #以前の解答を分解      
         if before_eat == 0:
@@ -192,12 +218,13 @@ class Enemy:
     
     def E0B0(self, before_place):
         """_summary_
-
+            渡された解答の判定が(Eat,Bite) =(0,0)の時に解答を制作する関数
         Args:
-            before_place (_type_): _description_
+            before_place (_list_): 直前の解答を分解し格納したリスト
 
         Returns:
             _type_: _description_
+            int : 作成した解答
         """
         postpone, enemy_answer = self.prioritize()
         if postpone == True:
@@ -215,12 +242,13 @@ class Enemy:
     
     def E0B1(self, before_place):
         """_summary_
-
+            渡された解答の判定が(Eat,Bite) =(0,1)の時に解答を制作する関数
         Args:
-            before_place (_type_): _description_
+            before_place (_list_): 直前の解答を分解し格納したリスト
 
         Returns:
             _type_: _description_
+            int : 作成した解答
         """
         postpone, enemy_answer = self.prioritize()
         if postpone == True:
@@ -263,12 +291,13 @@ class Enemy:
     
     def E0B2(self, before_place):
         """_summary_
-
+            渡された解答の判定が(Eat,Bite) =(0,2)の時に解答を制作する関数
         Args:
-            before_place (_type_): _description_
+            before_place (_list_): 直前の解答を分解し格納したリスト
 
         Returns:
             _type_: _description_
+            int : 作成した解答
         """
         postpone, enemy_answer = self.prioritize()
         if postpone == True:
@@ -301,7 +330,15 @@ class Enemy:
             return enemy_answer
     
     def E0B3(self,before_place):
-        """直前の解答がEat = 0,Bite = 3の時の解答を生成する"""
+        """_summary_
+            渡された解答の判定が(Eat,Bite) =(0,3)の時に解答を制作する関数
+        Args:
+            before_place (_list_): 直前の解答を分解し格納したリスト
+
+        Returns:
+            _type_: _description_
+            int : 作成した解答
+        """
         postpone, enemy_answer = self.prioritize()
         if postpone == True:
             return enemy_answer
@@ -327,12 +364,13 @@ class Enemy:
     
     def E1B0(self,before_place):
         """_summary_
-
+            渡された解答の判定が(Eat,Bite) =(1,0)の時に解答を制作する関数
         Args:
-            before_place (_type_): _description_
+            before_place (_list_): 直前の解答を分解し格納したリスト
 
         Returns:
             _type_: _description_
+            int : 作成した解答
         """
         postpone, enemy_answer = self.prioritize()
         if postpone == True:
@@ -363,12 +401,13 @@ class Enemy:
     
     def E1B1(self,before_place):
         """_summary_
-
+            渡された解答の判定が(Eat,Bite) =(1,1)の時に解答を制作する関数
         Args:
-            before_place (_type_): _description_
+            before_place (_list_): 直前の解答を分解し格納したリスト
 
         Returns:
             _type_: _description_
+            int : 作成した解答
         """
         enemy_used = True 
         enemy_overlap = True
@@ -442,7 +481,15 @@ class Enemy:
     
     
     def E1B2(self,before_place):
-        """直前の解答がEat=1,Bite=2の時の解答を生成する"""
+        """_summary_
+            渡された解答の判定が(Eat,Bite) =(1,2)の時に解答を制作する関数
+        Args:
+            before_place (_list_): 直前の解答を分解し格納したリスト
+
+        Returns:
+            _type_: _description_
+            int : 作成した解答
+        """
         enemy_used = True 
         buckup_beforeplace = copy.copy(before_place) #ループした時に引数を失わないようにバックアップをとる
         while(enemy_used):
@@ -468,11 +515,17 @@ class Enemy:
         return enemy_answer
     
     def E2B0(self,before_place):
-        """
-        直前の解答がEat=2,Bite=0の時の解答を生成する
-        最初にallregister配列を参照して過去にEat=2の結果があるかどうか探す
-        過去の結果に存在した場合は重複した数字だけをそのまま使用する
-        過去の結果に存在しなかった場合はランダムに数字を一つ変更して解答を生成する
+        """_summary_
+            渡された解答の判定が(Eat,Bite) =(2,0)の時に解答を制作する関数
+            最初にallregister配列を参照して過去にEat=2の結果があるかどうか探し
+            過去の結果に存在した場合は重複した数字だけをそのまま使用する
+            過去の結果に存在しなかった場合はランダムに数字を一つ変更して解答を生成する
+        Args:
+            before_place (_list_): 直前の解答を分解し格納したリスト
+
+        Returns:
+            _type_: _description_
+            int : 作成した解答
         """
         enemy_used = True 
         enemy_overlap = True
